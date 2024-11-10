@@ -42,7 +42,7 @@ function scrDisplay(number){
     else{
         display.innerHTML = num + number;
     }
-    let newDisplay = parseInt(display.innerHTML);
+    let newDisplay = parseFloat(display.innerHTML);
     return newDisplay;
 }
 
@@ -57,7 +57,7 @@ function calc(operator, numA, numB) {
     currentOperator = null;
     console.log(currentDisp);
     display.innerHTML = currentDisp;
-    let calculation = parseInt(currentDisp);
+    let calculation = parseFloat(currentDisp);
     console.log(calculation);
     currentDisp = NaN;
     numATaken = false;
@@ -68,7 +68,7 @@ function calc(operator, numA, numB) {
 const digits = document.getElementById("digits");
 digits.addEventListener("click", e => {
     if(e.target.className === 'digit'){
-        currentDisp = scrDisplay(parseInt(e.target.innerHTML));
+        currentDisp = scrDisplay(parseFloat(e.target.innerHTML));
         if (numATaken){
             numB = parseInt(currentDisp);
         }else{
@@ -92,8 +92,12 @@ operators.addEventListener("click", e => {
         
     }
     else if(e.target.className.includes('calculate')){
-        calc(currentOperator, numA, numB);
-        clearScrn();
+        if ((Number.isInteger(numB))){
+            let eval = calc(currentOperator, numA, numB);
+            clearScrn();
+            numA = eval;
+        }
+        
     }
 
 });
