@@ -34,6 +34,11 @@ let numA = NaN;
 let numB = NaN;
 let numATaken = false;
 
+const formatter = new Intl.NumberFormat('en-US', {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 6,
+});
+
 function scrDisplay(number){
     let num = display.innerHTML;
     if (!(Number.isInteger(currentDisp))){
@@ -53,7 +58,7 @@ function clearScrn() {
 }
 
 function calc(operator, numA, numB) {
-    currentDisp = operate(operator, numA, numB);
+    currentDisp = formatter.format(operate(operator, numA, numB));
     currentOperator = null;
     console.log(currentDisp);
     display.innerHTML = currentDisp;
