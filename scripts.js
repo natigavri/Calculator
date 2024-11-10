@@ -3,7 +3,7 @@ function add(a,b){
 }
 
 function subtract(a,b){
-    return (b - a);
+    return (a - b);
 }
 
 function multiply(a,b){
@@ -11,7 +11,7 @@ function multiply(a,b){
 }
 
 function divide(a,b){
-    return (b / a);
+    return (a / b);
 }
 
 function operate(operator,a,b){
@@ -30,8 +30,9 @@ const defDisp = '0';
 const display = document.getElementById("display");
 let currentDisp = NaN;
 let currentOperator = null;
-let numA = null;
-let numB = null;
+let numA = NaN;
+let numB = NaN;
+let numATaken = false;
 
 function scrDisplay(number){
     let num = display.innerHTML;
@@ -46,33 +47,52 @@ function scrDisplay(number){
 }
 
 function clearScrn() {
-    currentDisp = null;
-    numA = null;
-    numB = null;
+    currentDisp = NaN;
+    numA = NaN;
+    numB = NaN;
 }
 
+function calc(operator, numA, numB) {
+    currentDisp = operate(operator, numA, numB);
+    currentOperator = null;
+    console.log(currentDisp);
+    display.innerHTML = currentDisp;
+    let calculation = parseInt(currentDisp);
+    console.log(calculation);
+    currentDisp = NaN;
+    numATaken = false;
+    return calculation;
+}
+
+/* listen for number press, show on screen and save into variable */
 const digits = document.getElementById("digits");
 digits.addEventListener("click", e => {
     if(e.target.className === 'digit'){
         currentDisp = scrDisplay(parseInt(e.target.innerHTML));
-        numA = parseInt(currentDisp);
+        if (numATaken){
+            numB = parseInt(currentDisp);
+        }else{
+            numA = parseInt(currentDisp);
+        }   
     }
 });
-
+/* listen for operator press, save into variable */
 const operators = document.getElementById("operators");
 operators.addEventListener("click", e => {
     if(e.target.className.includes('operator')){
+        if(numATaken && Number.isInteger(numB)){
+            numA = calc(currentOperator, numA, numB);
+        }
         currentOperator = e.target.innerHTML;
-        numB = numA;
         currentDisp = NaN;
+        numATaken = true;
     }else if(e.target.className.includes('clearDisp')){
         display.innerHTML = '';
         clearScrn();
         
     }
     else if(e.target.className.includes('calculate')){
-        currentDisp = operate(currentOperator, numA, numB);
-        display.innerHTML = currentDisp;
+        calc(currentOperator, numA, numB);
         clearScrn();
     }
 
