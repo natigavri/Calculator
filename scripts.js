@@ -14,6 +14,7 @@ function divide(a,b){
     return (a / b);
 }
 
+/* choose correct function based on operator */
 function operate(operator,a,b){
     switch(operator){
         case '+':
@@ -26,6 +27,8 @@ function operate(operator,a,b){
             return divide(a,b);
     }
 }
+
+/* default values */
 const defDisp = '0';
 const display = document.getElementById("display");
 let currentDisp = NaN;
@@ -34,38 +37,50 @@ let numA = NaN;
 let numB = NaN;
 let numATaken = false;
 
+/* long decimals formatter */
 const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
     maximumFractionDigits: 6,
 });
 
-function scrDisplay(number){
-    let num = display.innerHTML;
+/* displays pressed number on screen */
+function scrDisplay(userInput){
+    let currentNum = display.innerHTML;
     if (!(Number.isInteger(currentDisp))){
-        display.innerHTML = number;
+        display.innerHTML = userInput;
     }
     else{
-        display.innerHTML = num + number;
+        display.innerHTML = currentNum + userInput;
     }
     let newDisplay = parseFloat(display.innerHTML);
     return newDisplay;
 }
 
+/* Clear screen and reset saved values */
 function clearScrn() {
     currentDisp = NaN;
     numA = NaN;
     numB = NaN;
+    numATaken = false;
 }
 
+/* Calculate user inputs */
 function calc(operator, numA, numB) {
-    currentDisp = formatter.format(operate(operator, numA, numB));
+    let calculation = NaN;
+    if (operator === "/" && numB === 0){
+        currentDisp = 'Dont!';
+        display.innerHTML = currentDisp;
+        numATaken = false;
+    }
+    else{
+        currentDisp = formatter.format(operate(operator, numA, numB));
+        
+        display.innerHTML = currentDisp;
+        calculation = parseFloat(currentDisp);
+    }
     currentOperator = null;
-    console.log(currentDisp);
-    display.innerHTML = currentDisp;
-    let calculation = parseFloat(currentDisp);
-    console.log(calculation);
     currentDisp = NaN;
-    numATaken = false;
+    
     return calculation;
 }
 
@@ -78,6 +93,7 @@ digits.addEventListener("click", e => {
             numB = parseInt(currentDisp);
         }else{
             numA = parseInt(currentDisp);
+            
         }   
     }
 });
@@ -87,6 +103,7 @@ operators.addEventListener("click", e => {
     if(e.target.className.includes('operator')){
         if(numATaken && Number.isInteger(numB)){
             numA = calc(currentOperator, numA, numB);
+            
         }
         currentOperator = e.target.innerHTML;
         currentDisp = NaN;
