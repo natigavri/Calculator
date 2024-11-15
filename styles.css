@@ -1,3 +1,13 @@
+:root {
+    --body: #2C2C34;
+    --text: #D8D8F6;
+    --button: #494850;
+    --special: #B18FCF;
+    --special2: #906caf;
+    --screen: #978897;
+
+}
+
 * {
 margin: 0;
 padding: 0;
@@ -6,19 +16,27 @@ box-sizing: border-box;
 
 html {
 font-size: 100%; /* Base font size */
+background-color: var(--button);
+}
+
+body {
+    padding-top: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Buttons */
 button {
-background-color: rgb(133,133,172); /* Button color */
-color: white; /* Button text color */
+background-color: var(--button); /* Button color */
+color: var(--text); /* Button text color */
 border: none; /* No border */
 border-radius: 4px; /* Rounded corners */
 cursor: pointer; /* Pointer cursor */
 }
 
 button:hover {
-background-color: #0056b3; /* Darker button color on hover */
+background-color: var(--screen); /* button color on hover */
 }
 /* Links */
 a {
@@ -34,26 +52,33 @@ text-decoration: underline; /* Underline on hover */
 display: flex;
 flex-direction: column;
 align-items: center;
-width: 500px;
-height: 550px;
-background-color: #007BFF;
-padding: 10px;
+width: 450px;
+height: 450px;
+background-color: var(--body);
+padding: 20px;
 gap: 20px;
+box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .display {
-background-color: white;
+background-color: var(--screen);
 width: 400px;
 height: 80px;
+border: none; /* No border */
+border-radius: 4px; /* Rounded corners */
 overflow: hidden;
 text-align: end;
+align-items: center;
 font-size: 60px;
 padding: 10px;
 }
 
 .calcBody {
 display: flex;
+width: 450px;
 gap: 10px;
+justify-content: center;
+align-items: center;
 }
 
 .digits {
@@ -64,7 +89,7 @@ align-items: center;
 flex-wrap: wrap;
 width: 250px;
 height: 300px;
-gap:10px
+gap:10px;
 }
 
 .digit {
@@ -72,6 +97,11 @@ width: 70px;
 height: 70px;
 font-size: 50px;
 text-align: center;
+flex-grow: 1;
+}
+
+#0 {
+    flex-grow: 2;
 }
 
 .operators {
@@ -79,15 +109,33 @@ display: flex;
 flex-direction: row;
 flex-wrap: wrap;
 justify-content: center;
-align-items: center;
+align-items:flex-start;
+align-content: flex-start;
 gap: 10px;
-width: 220px;
+width: 150px;
 height: 300px;
 }
 
-.calcBTN{
+.calcBTN {
+background-color: var(--special);
+color: var(--body);
 width: 70px;
 height: 70px;
 font-size: 50px;
 text-align: center;
+margin: 0;
+padding: 0;
+}
+
+.calculate {
+    flex-grow: 2;
+    background-color: var(--special2);
+}
+
+.clearDisp, .plusOrMinus {
+    background-color: var(--special2);
+}
+
+.calcBTN:hover {
+    background-color: #df874c;
 }
