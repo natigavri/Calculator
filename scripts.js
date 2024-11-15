@@ -119,9 +119,9 @@ operators.addEventListener("click", e => {
             numA = eval;
         }
     }
-    else if(e.target.className.includes('plusOrMinus')){
-        let disp = parseInt(display.innerHTML)
-        let sign = Math.sign(disp)
+    else if(e.target.className.includes('plusOrMinus')){ /* Check if user pressed on "+/-", then toggle input on screen */
+        let disp = parseInt(display.innerHTML);
+        let sign = Math.sign(disp);
         if (sign !== 0){
             if (numA === disp) {
                 if (sign === 1){
