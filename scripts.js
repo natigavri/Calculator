@@ -33,6 +33,7 @@ const defDisp = '0';
 const display = document.getElementById("display");
 let currentDisp = NaN;
 let currentOperator = null;
+let prevOperator = null;
 let numA = NaN;
 let numB = NaN;
 // let numATaken = false;
@@ -46,11 +47,18 @@ const formatter = new Intl.NumberFormat('en-US', {
 /* displays pressed number on screen */
 function scrnDisplay(userInput){
     let currentNum = display.innerHTML;
-    if (!(Number.isInteger(currentDisp))){
+    if (!(Number.isFinite(currentDisp))){
         display.innerHTML = userInput;
     }
     else{
+        if (currentOperator === '.'){
+            display.innerHTML = currentNum + currentOperator + userInput;
+            currentOperator = prevOperator;
+            prevOperator = null;
+        }
+        else {
         display.innerHTML = currentNum + userInput;
+        }
     }
     let newDisplay = parseFloat(display.innerHTML);
     return newDisplay;
@@ -60,6 +68,7 @@ function scrnDisplay(userInput){
 function clearScrn() {
     currentDisp = NaN;
     currentOperator = null;
+    prevOperator = null;
     numA = NaN;
     numB = NaN;
     // numATaken = false;
@@ -148,7 +157,7 @@ const calculator = document.getElementById("calcBody");
 calculator.addEventListener("click", e => {
     if(e.target.className === 'digit'){ /* Check if user pressed digits */
         currentDisp = scrnDisplay(e.target.innerHTML);
-        if (!(isNaN(numA)) && currentOperator !== null){
+        if (!(isNaN(numA)) && currentOperator !== null && currentOperator !== '.'){
             numB = parseFloat(currentDisp);
         }else{
             numA = parseFloat(currentDisp);   
@@ -167,31 +176,33 @@ calculator.addEventListener("click", e => {
         
     }
     else if(e.target.className.includes('calculate')){ /* Check if user pressed on "=" */
-        if ((Number.isInteger(numB))){
+        if ((Number.isFinite(numB))){
             let eval = calc(currentOperator, numA, numB);
             clearScrn();
             numA = eval;
         }
     }
     else if(e.target.className.includes('plusOrMinus')){ /* Check if user pressed on "+/-", then toggle input on screen */
-        let disp = parseInt(display.innerHTML);
-        let sign = Math.sign(disp);
-        if (sign !== 0){
-            if (numA === disp) {
-                if (sign === 1){
-                    numA = numA * ((-1) * sign);
-                    display.innerHTML = disp*((-1) * sign);
+        let disp = parseFloat(display.innerHTML);
+        if (!(isNaN(disp))){
+            let sign = Math.sign(disp);
+            if (sign !== 0){
+                if (numA === disp) {
+                    if (sign === 1){
+                        numA = numA * ((-1) * sign);
+                        display.innerHTML = disp*((-1) * sign);
+                    }else{
+                        numA = numA * (-1);
+                        display.innerHTML = disp* (-1);
+                    }
                 }else{
-                    numA = numA * (-1);
-                    display.innerHTML = disp* (-1);
-                }
-            }else{
-                if (sign === 1){
-                    numB = numB * ((-1) * sign);
-                    display.innerHTML = disp*((-1) * sign);
-                }else{
-                    numB = numB * (-1);
-                    display.innerHTML = disp* (-1);
+                    if (sign === 1){
+                        numB = numB * ((-1) * sign);
+                        display.innerHTML = disp*((-1) * sign);
+                    }else{
+                        numB = numB * (-1);
+                        display.innerHTML = disp* (-1);
+                    }
                 }
             }
         }
@@ -199,15 +210,28 @@ calculator.addEventListener("click", e => {
     else if(e.target.className.includes('dot')){
         let disp = display.innerHTML;
         if (!(disp.includes('.'))){
-            if (numA === parseFloat(disp)){
-                display.innerHTML = disp + '.0';
-                numA = parseFloat(disp);
-            }
-            else {
-                display.innerHTML = disp + '.0';
-                numB = parseFloat(disp);
-            }
+            // if (numA === parseFloat(disp)){
+            //     display.innerHTML = disp + '.0';
+            //     numA = parseFloat(disp);
+            // }
+            // else {
+            //     display.innerHTML = disp + '.0';
+            //     numB = parseFloat(disp);
+            prevOperator = currentOperator;
+            currentOperator = e.target.innerHTML;
+            
         }
+    }
+    else if (e.target.id.includes('delete')){
+        let disp = display.innerHTML;
+        let dispSlice = disp.slice(0, (disp.length - 1));
+        if (numA === parseFloat(disp)){
+            numA = parseFloat(dispSlice);
+        }
+        else {
+            numB = parseFloat(dispSlice);
+        }
+        display.innerHTML = dispSlice;
     }
 });
 
