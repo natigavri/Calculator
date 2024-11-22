@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Basic Calculator</title>
     <link rel="stylesheet" href="styles.css"/>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0&icon_names=backspace" />
     <script src="scripts.js" defer></script>
 </head>
 <body>
     <div class="calculator">
         <div id="display" class="display">0</div>
-        <div class="calcBody">
+        <div id="calcBody" class="calcBody">
             <div id="digits" class="digits">
                 <button id="1" class="digit">1</button>
                 <button id="2" class="digit">2</button>
@@ -21,15 +22,19 @@
                 <button id="7" class="digit">7</button>
                 <button id="8" class="digit">8</button>
                 <button id="9" class="digit">9</button>
+                <button id="plusOrMinus" class="plusOrMinus calcBTN">+/-</button>
                 <button id="0" class="digit">0</button>
+                <button id="dot" class="dot calcBTN">.</button>
             </div>
             <div id="operators" class="operators">
+                <button id="clearDisp" class="clearDisp calcBTN">C</button>
+                <button id="delete" class="delete calcBTN"><span class="material-symbols-outlined" style="font-size:48px;">
+                    backspace
+                    </span></button>
                 <button id="+" class="operator calcBTN">+</button>
                 <button id="-" class="operator calcBTN">-</button>
                 <button id="*" class="operator calcBTN">*</button>
                 <button id="/" class="operator calcBTN">/</button>
-                <button id="plusOrMinus" class="plusOrMinus calcBTN">+/-</button>
-                <button id="clearDisp" class="clearDisp calcBTN">C</button>
                 <button id="=" class="calculate calcBTN">=</button>
             </div>
         </div>

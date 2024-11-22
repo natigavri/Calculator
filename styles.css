@@ -26,6 +26,12 @@ body {
     align-items: center;
 }
 
+span {
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+}
+
 /* Buttons */
 button {
 background-color: var(--button); /* Button color */
@@ -98,6 +104,8 @@ height: 70px;
 font-size: 50px;
 text-align: center;
 flex-grow: 1;
+margin: 0;
+padding: 0;
 }
 
 #0 {
@@ -117,6 +125,8 @@ height: 300px;
 }
 
 .calcBTN {
+display: flex;
+justify-content: center;
 background-color: var(--special);
 color: var(--body);
 width: 70px;
@@ -125,6 +135,7 @@ font-size: 50px;
 text-align: center;
 margin: 0;
 padding: 0;
+align-items: center;
 }
 
 .calculate {
@@ -132,8 +143,12 @@ padding: 0;
     background-color: var(--special2);
 }
 
-.clearDisp, .plusOrMinus {
+.clearDisp, .plusOrMinus, .delete, .dot{
     background-color: var(--special2);
+}
+
+.plusOrMinus, .clearDisp {
+    font-size: 40px;
 }
 
 .calcBTN:hover {

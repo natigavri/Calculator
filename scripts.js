@@ -40,7 +40,7 @@ let numB = NaN;
 /* long decimals formatter */
 const formatter = new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 0,
-    maximumFractionDigits: 6,
+    maximumFractionDigits: 6
 });
 
 /* displays pressed number on screen */
@@ -74,9 +74,9 @@ function calc(operator, numA, numB) {
         // numATaken = false;
     }
     else{
-        currentDisp = formatter.format(operate(operator, numA, numB));
-        
-        display.innerHTML = currentDisp;
+        // currentDisp = formatter.format(operate(operator, numA, numB));
+        currentDisp = operate(operator, numA, numB);
+        display.innerHTML = formatter.format(currentDisp);
         calculation = parseFloat(currentDisp);
     }
     currentOperator = null;
@@ -86,20 +86,74 @@ function calc(operator, numA, numB) {
 }
 
 /* listen for number press, show on screen and save into variable */
-const digits = document.getElementById("digits");
-digits.addEventListener("click", e => {
-    if(e.target.className === 'digit'){
+// const digits = document.getElementById("digits");
+// digits.addEventListener("click", e => {
+//     if(e.target.className === 'digit'){
+//         currentDisp = scrnDisplay(e.target.innerHTML);
+//         if (!(isNaN(numA)) && currentOperator !== null){
+//             numB = parseFloat(currentDisp);
+//         }else{
+//             numA = parseFloat(currentDisp);   
+//         }   
+//     }
+// });
+/* listen for operator press, save into variable */
+// const operators = document.getElementById("operators");
+// operators.addEventListener("click", e => {
+//     if(e.target.className.includes('operator')){ /* Check if user pressed on "*, /, +, -" */
+//         if(!(isNaN(numA)) && !(isNaN(numB))){
+//             numA = calc(currentOperator, numA, numB); 
+//         }
+//         currentOperator = e.target.innerHTML;
+//         currentDisp = NaN;
+//         // numATaken = true;
+//     }else if(e.target.className.includes('clearDisp')){ /* Check if user pressed on "C" */
+//         display.innerHTML = '';
+//         clearScrn();
+        
+//     }
+//     else if(e.target.className.includes('calculate')){ /* Check if user pressed on "=" */
+//         if ((Number.isInteger(numB))){
+//             let eval = calc(currentOperator, numA, numB);
+//             clearScrn();
+//             numA = eval;
+//         }
+//     }
+//     else if(e.target.className.includes('plusOrMinus')){ /* Check if user pressed on "+/-", then toggle input on screen */
+//         let disp = parseInt(display.innerHTML);
+//         let sign = Math.sign(disp);
+//         if (sign !== 0){
+//             if (numA === disp) {
+//                 if (sign === 1){
+//                     numA = numA * ((-1) * sign);
+//                     display.innerHTML = disp*((-1) * sign);
+//                 }else{
+//                     numA = numA * (-1);
+//                     display.innerHTML = disp* (-1);
+//                 }
+//             }else{
+//                 if (sign === 1){
+//                     numB = numB * ((-1) * sign);
+//                     display.innerHTML = disp*((-1) * sign);
+//                 }else{
+//                     numB = numB * (-1);
+//                     display.innerHTML = disp* (-1);
+//                 }
+//             }
+//         }
+//     }
+// });
+
+const calculator = document.getElementById("calcBody");
+calculator.addEventListener("click", e => {
+    if(e.target.className === 'digit'){ /* Check if user pressed digits */
         currentDisp = scrnDisplay(e.target.innerHTML);
         if (!(isNaN(numA)) && currentOperator !== null){
-            numB = parseInt(currentDisp);
+            numB = parseFloat(currentDisp);
         }else{
-            numA = parseInt(currentDisp);   
+            numA = parseFloat(currentDisp);   
         }   
     }
-});
-/* listen for operator press, save into variable */
-const operators = document.getElementById("operators");
-operators.addEventListener("click", e => {
     if(e.target.className.includes('operator')){ /* Check if user pressed on "*, /, +, -" */
         if(!(isNaN(numA)) && !(isNaN(numB))){
             numA = calc(currentOperator, numA, numB); 
@@ -142,5 +196,19 @@ operators.addEventListener("click", e => {
             }
         }
     }
-
+    else if(e.target.className.includes('dot')){
+        let disp = display.innerHTML;
+        if (!(disp.includes('.'))){
+            if (numA === parseFloat(disp)){
+                display.innerHTML = disp + '.0';
+                numA = parseFloat(disp);
+            }
+            else {
+                display.innerHTML = disp + '.0';
+                numB = parseFloat(disp);
+            }
+        }
+    }
 });
+
+    
